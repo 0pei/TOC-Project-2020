@@ -1,6 +1,7 @@
 from transitions.extensions import GraphMachine
+from transitions import Machine
 from utils import *
-# from utils import send_text_message, send_choose_message
+# from utils import send_text_message, send_button_message, send_location_message, send_image_url
 
 
 class TocMachine(GraphMachine):
@@ -12,7 +13,7 @@ class TocMachine(GraphMachine):
         return text.lower() == "fsm"
 
     def on_enter_fsm(self,event):   
-        send_image_url(event.source.user_id,"https://images.app.goo.gl/ofnHU8gaCxdjWkxc8")
+        send_image_url(event.reply_token, "https://images.app.goo.gl/ofnHU8gaCxdjWkxc8")
         self.go_back()
 
     def is_going_to_q1(self, event):
