@@ -6,7 +6,7 @@ from utils import *
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
-        
+
         self.machine = GraphMachine(model=self, **machine_configs)
     
     def is_going_to_fsm(self,event):
@@ -14,7 +14,7 @@ class TocMachine(GraphMachine):
         return text.lower() == "fsm"
 
     def on_enter_fsm(self,event):   
-        send_image_url(event.reply_token, "https://images.app.goo.gl/ofnHU8gaCxdjWkxc8")
+        send_image_url(event.reply_token, "https://i.imgur.com/49sGo6f.png")
         self.go_back()
 
     def is_going_to_q1(self, event):

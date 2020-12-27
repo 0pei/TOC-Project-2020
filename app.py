@@ -44,7 +44,7 @@ machine = TocMachine(
     show_conditions=True,
 )
 
-app = Flask(__name__, static_url_path="/static")
+app = Flask(__name__, static_url_path="")
 machine.get_graph().draw("fsm.png", prog = "dot", format = "png")
 
 # get channel_secret and channel_access_token from your environment variable
