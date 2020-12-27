@@ -44,8 +44,8 @@ machine = TocMachine(
     show_conditions=True,
 )
 
-app = Flask(__name__, static_url_path="")
-
+app = Flask(__name__, static_url_path="/static")
+machine.get_graph().draw("fsm.png", prog = "dot", format = "png")
 
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = "280a4536aafbc55087af240efcf7d22c"
@@ -90,7 +90,6 @@ def callback():
 
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
-    machine.get_graph().draw("fsm.jpg", prog = "dot", format = "jpg")
     signature = request.headers["X-Line-Signature"]
     # get request body as text
     body = request.get_data(as_text=True)
