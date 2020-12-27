@@ -88,12 +88,82 @@ The initial state is set to `user`.
 
 Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
 
-* user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
-
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
+- user
+	- input: "fsm"
+		- go to "fsm"
+	- input: "start"
+		- go to "q1"
+- fsm
+	- reply: fsm.png
+		- go to "user"		
+- q1
+	- input: "偏熱"
+		- go to "q4"
+	- input: "偏冷"
+		- go to "q2"
+- q2
+	- input: "還不錯"
+		- go to "q6"
+	- input: "不好"
+		- go to "q3"
+- q3
+	- input: "盆栽要剪，小吉要扁"
+		- go to "q6"
+	- input: "摸摸可愛小吉><"
+		- go to "q5"
+- q4
+	- input: "我大意了阿，沒有閃"
+		- go to "q5"
+	- input: "年輕人不講武德"
+		- go to "q7"
+- q5
+	- input: "哇！珍妮佛羅培茲！"
+		- go to "q7"
+	- input: "妳剛攻擊我的村莊？"
+		- go to "q8"
+- q6
+	- input: "古道西風瘦馬。"
+		- go to "q9"
+	- input: "古道梅子綠茶。"
+		- go to "q8"
+- q7
+	- input: "香菜"
+		- go to "q9"
+	- input: "芋頭"
+		- go to "q10"
+- q8
+	- input: "買1顆橘子"
+		- go to "a1"
+	- input: "買5顆橘子+1顆蘋果"
+		- go to "a2"
+- q9
+	- input: "懂二進位的人"
+		- go to "a3"
+	- input: "不懂二進位的人"
+		- go to "a4"
+- q10
+	- input: "A"
+		- go to "a5"
+	- input: "peko"
+		- go to "a6"
+- a1
+	- reply: 杯子社
+		- go to "user"
+- a2
+	- reply: 銀兩
+		- go to "user"
+- a3
+	- reply: 海鷗
+		- go to "user"
+- a4
+	- reply: 八里亭
+		- go to "user"
+- a5
+	- reply: 初牧
+		- go to "user"
+- a6
+	- reply: 注春
+		- go to "user"
 
 ## Deploy
 Setting to deploy webhooks on Heroku.
