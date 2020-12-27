@@ -90,6 +90,7 @@ def callback():
 
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
+    machine.get_graph().draw("fsm.jpg", prog = "dot", format = "jpg")
     signature = request.headers["X-Line-Signature"]
     # get request body as text
     body = request.get_data(as_text=True)
