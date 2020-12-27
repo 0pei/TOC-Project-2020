@@ -12,23 +12,32 @@ from utils import send_text_message
 
 load_dotenv()
 
-
 machine = TocMachine(
-    states=["user", "state1", "state2"],
+    states=["user", "fsm", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "a1", "a2", "a3", "a4", "a5", "a6",],
     transitions=[
-        {
-            "trigger": "advance",
-            "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
-        },
-        {
-            "trigger": "advance",
-            "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
-        },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "user"},
+        {"trigger": "advance", "source": "user", "dest": "fsm", "conditions": "is_going_to_fsm",},  
+        {"trigger": "advance","source": "user", "dest": "q1","conditions": "is_going_to_q1",},
+        {"trigger": "advance","source": "q1", "dest": "q4","conditions": "is_going_to_q4"},              
+        {"trigger": "advance","source": "q1", "dest": "q2","conditions": "is_going_to_q2"},        
+        {"trigger": "advance","source": "q2", "dest": "q6","conditions": "is_going_to_q6"},        
+        {"trigger": "advance","source": "q2", "dest": "q3","conditions": "is_going_to_q3"},  
+        {"trigger": "advance","source": "q3", "dest": "q6","conditions": "is_going_to_q6"},        
+        {"trigger": "advance","source": "q3", "dest": "q5","conditions": "is_going_to_q5"},
+        {"trigger": "advance","source": "q4", "dest": "q5","conditions": "is_going_to_q5"},        
+        {"trigger": "advance","source": "q4", "dest": "q7","conditions": "is_going_to_q7"},
+        {"trigger": "advance","source": "q5", "dest": "q7","conditions": "is_going_to_q7"},        
+        {"trigger": "advance","source": "q5", "dest": "q8","conditions": "is_going_to_q8"},
+        {"trigger": "advance","source": "q6", "dest": "q9","conditions": "is_going_to_q9"},        
+        {"trigger": "advance","source": "q6", "dest": "q8","conditions": "is_going_to_q8"}, 
+        {"trigger": "advance","source": "q7", "dest": "q9","conditions": "is_going_to_q9"},        
+        {"trigger": "advance","source": "q7", "dest": "q10","conditions": "is_going_to_q10"}, 
+        {"trigger": "advance","source": "q8", "dest": "a1","conditions": "is_going_to_a1"},        
+        {"trigger": "advance","source": "q8", "dest": "a2","conditions": "is_going_to_a2"},
+        {"trigger": "advance","source": "q9", "dest": "a3","conditions": "is_going_to_a3"},        
+        {"trigger": "advance","source": "q9", "dest": "a4","conditions": "is_going_to_a4"},
+        {"trigger": "advance","source": "q10", "dest": "a5","conditions": "is_going_to_a5"},        
+        {"trigger": "advance","source": "q10", "dest": "a6","conditions": "is_going_to_a6"},
+        {"trigger": "go_back","source": ["fsm", "a1", "a2", "a3", "a4", "a5", "a6"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
@@ -39,8 +48,8 @@ app = Flask(__name__, static_url_path="")
 
 
 # get channel_secret and channel_access_token from your environment variable
-channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
-channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
+channel_secret = "280a4536aafbc55087af240efcf7d22c"
+channel_access_token = "NWeBJJ7+eTJ4HQMMj5dEHner0dmBho2IrqXB1EEIP7Zjqf3jJqL+p6Ez208HpfyrXmSLkyj9kzrBAZbWXcY3dM3FtVC5p+G1d9AlKw1/940Fjnj86yUZUHOa3HoVemaPkZ9u2FllvcxIfjUw/adbDgdB04t89/1O/w1cDnyilFU="
 if channel_secret is None:
     print("Specify LINE_CHANNEL_SECRET as environment variable.")
     sys.exit(1)
@@ -100,8 +109,8 @@ def webhook_handler():
             continue
         if not isinstance(event.message.text, str):
             continue
-        print(f"\nFSM STATE: {machine.state}")
-        print(f"REQUEST BODY: \n{body}")
+        # print(f"\nFSM STATE: {machine.state}")
+        # print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
             send_text_message(event.reply_token, "Not Entering any State")
